@@ -37,16 +37,23 @@
   position: absolute;
   cursor: pointer;
   right: 10%;
-  top:55.7%;
+  top:56.4%;
 }
 
 .register-showconfirmpass-icon{
   position: absolute;
   cursor: pointer;
   right: 10%;
-  top:72.7%;
+  top:74%;
 }
 
 .register-link{
   margin-left: 1rem;
+}
+
+
+@media only screen and (max-width: 421px) {
+  .register-form{
+    width: 280px;
+  }
 }

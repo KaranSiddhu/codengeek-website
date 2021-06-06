@@ -10,12 +10,12 @@ const ForgotPasswordScreen = () => {
 
       <div className="forgotpass-card">
         <MyCard title="Forgot Password">
-          <p className='fogotpass-text'>
-            Please enter the email address you register your account with. We<br/> 
-            will send you reset password confirmation to this email
-          </p>
           <form className="forgotpass-form">
 
+          <p className='fogotpass-text'>
+            Please enter the email address you register your account with. We
+            will send you reset password confirmation to this email
+          </p>
           <div className="form-field">
               <label htmlFor="email">Email:</label>
               <input

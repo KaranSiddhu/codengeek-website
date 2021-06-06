@@ -42,3 +42,11 @@
   right: 10%;
   top:59%;
 }
+
+
+@media only screen and (max-width: 421px) {
+  .login-form{
+    width: 280px;
+  }
+ 
+}
