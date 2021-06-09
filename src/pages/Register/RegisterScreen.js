@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import MyCard from "../../card/MyCard";
-import Particle from "../../Particles";
-import { ImEye, ImEyeBlocked } from "react-icons/im";
+import MyCard from "../../components/card/MyCard";
+import Particle from '../../components/Particles';
 import "./RegisterScreen.css";
 import axios from "axios";
-import { authenticate } from "../../../auth/authHelper";
+import { authenticate, isAuthenticate } from "../../auth/authHelper";
 
 const RegisterScreen = ({ history }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showPassEyeIcon, setPassShowEyeIcon] = useState(false);
-  const [showConfirmPassEyeIcon, setConfirmPassShowEyeIcon] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,15 +17,12 @@ const RegisterScreen = ({ history }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const showPass = () => {
-    setPassShowEyeIcon(!showPassEyeIcon);
-    setShowPassword(!showPassword);
-  };
-
-  const showConfirmPass = () => {
-    setConfirmPassShowEyeIcon(!showConfirmPassEyeIcon);
-    setShowConfirmPassword(!showConfirmPassword);
-  };
+  
+  useEffect(() => {
+    if(isAuthenticate()){
+      history.push('/');
+    }
+  }, [history])
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -38,7 +33,6 @@ const RegisterScreen = ({ history }) => {
       setTimeout(() => {
         setError("");
       }, 5000);
-
       return setError("Passwords do not match");
     }
 
@@ -48,37 +42,34 @@ const RegisterScreen = ({ history }) => {
       }
     };
 
-    // try {
-    // const { data } = axios.post("/api/v1/auth/register", { userName, email, password }, config);
-    fetch("/api/v1/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        userName: userName,
-        email: email,
-        password: password
-      })
-    })
-      .then((res) => res.json())
-      .then((data) => console.log("DATA", data))
-      .catch((err) => console.log("ERR", err));
+    try {
+      const { data } = await axios.post(
+        "/api/v1/auth/register",
+        { userName, email, password },
+        config
+      );
+      console.log("DATA", data);
 
-    // localStorage.setItem("authToken", data.token);
-    // history.push("/");
-    // } catch (err) {
-    //   console.log(err);
-    //   setError(err.response.data.error);
-    //   setTimeout(() => {
-    //     setError("");
-    //   }, 5000);
-    // }
+      authenticate(data);
+      history.push("/");
+    } catch (err) {
+      setError(err.response.data.error);
+      setTimeout(() => {
+        setError("");
+      }, 6000);
+    }
+  };
+
+  const handleOnCheckboxClick = () => {
+    setIsChecked(!isChecked);
+    setShowPassword(!showPassword);
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const registerForm = () => {
     return (
       <form onSubmit={registerHandler} className="register-form">
+        {error && <span className="error-message">{error}</span>}
         <div className="form-field">
           <label htmlFor="name">Username:</label>
           <input
@@ -116,11 +107,6 @@ const RegisterScreen = ({ history }) => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter password"
           />
-          {showPassEyeIcon ? (
-            <ImEyeBlocked onClick={showPass} className="register-showpass-icon" />
-          ) : (
-            <ImEye onClick={showPass} className="register-showpass-icon" />
-          )}
         </div>
 
         <div className="form-field">
@@ -134,11 +120,17 @@ const RegisterScreen = ({ history }) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm password"
           />
-          {showConfirmPassEyeIcon ? (
-            <ImEyeBlocked onClick={showConfirmPass} className="register-showconfirmpass-icon" />
-          ) : (
-            <ImEye onClick={showConfirmPass} className="register-showconfirmpass-icon" />
-          )}
+        </div>
+        <div className="check">
+          <input
+            type="checkbox"
+            id="check-box"
+            checked={isChecked}
+            onChange={handleOnCheckboxClick}
+          />
+          <label htmlFor="checkbox" id="show-pass" onClick={handleOnCheckboxClick}>
+            Show password
+          </label>
         </div>
 
         <button type="submit" className="btn btn-primary">
@@ -160,10 +152,7 @@ const RegisterScreen = ({ history }) => {
       <Particle />
 
       <div className="register-card">
-        <MyCard title="Register">
-          {error && <span>{error}</span>}
-          {registerForm()}
-        </MyCard>
+        <MyCard title="Register">{registerForm()}</MyCard>
       </div>
     </div>
   );

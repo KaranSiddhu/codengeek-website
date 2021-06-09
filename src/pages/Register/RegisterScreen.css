@@ -32,21 +32,6 @@
   font-size: 13px;
 }
 
-
-.register-showpass-icon{
-  position: absolute;
-  cursor: pointer;
-  right: 10%;
-  top:56.4%;
-}
-
-.register-showconfirmpass-icon{
-  position: absolute;
-  cursor: pointer;
-  right: 10%;
-  top:74%;
-}
-
 .register-link{
   margin-left: 1rem;
 }

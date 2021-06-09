@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 //* screens
-import LogInScreen from "./components/screens/LogIn/LogInScreen";
-import RegisterScreen from "./components/screens/Register/RegisterScreen";
-import ForgotPasswordScreen from "./components/screens/Forgot password/ForgotPasswordScreen";
-import PasswordResetScreen from "./components/screens/Password reset/PasswordResetScreen";
-import HomeScreen from "./components/screens/Home/HomeScreen";
+import LogInScreen from "./pages/LogIn/LogInScreen";
+import RegisterScreen from "./pages/Register/RegisterScreen";
+import ForgotPasswordScreen from "./pages/Forgot password/ForgotPasswordScreen";
+import PasswordResetScreen from "./pages/Password reset/PasswordResetScreen";
+import HomeScreen from "./pages/Home/HomeScreen";
 
 //* Routing
 import PrivateRoute from "./components/routing/PrivateRoute";

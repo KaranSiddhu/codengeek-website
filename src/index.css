@@ -16,7 +16,8 @@ body{
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin: 30px 10px;
+  margin: 0 15px;
+  margin-top: 30px;
 }
 
 .form-field input{
@@ -41,14 +42,63 @@ body{
   padding: 10px 20px;
   cursor: pointer;
   border: none;
+  margin-top: 15px;
 }
 
 .btn:hover{
   opacity: 0.8;
-
+  
 }
 
 .btn-primary {
   background-color: coral;
   color: #fff;
+}
+
+/* Check Box */
+
+.check{
+  display: flex;
+  align-items: flex-start;
+  margin-top: 15px;
+  
+  margin-left: 16px;
+}
+
+#check-box{
+  height: 16px;
+  width: 16px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+input{
+  user-select: none;
+}
+
+#show-pass{
+  cursor: pointer;
+  margin-left: 6px;
+  user-select: none;
+}
+
+.error-message{
+  display: flex;
+  flex: 1;
+  background-color: red;
+  color: white;
+  padding: 6px;
+  justify-content: center;
+
+}
+
+.success-message{
+  display: flex;
+  flex: 1;
+  background-color: #42ba96;
+  justify-content: center;
+  color: white;
+
+  padding: 6px;
+
 }
