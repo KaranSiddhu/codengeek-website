@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import "./PasswordReset.css";
 import MyCard from "../../components/card/MyCard";
-import Particle from '../../components/Particles';
-import { Link, matchPath } from "react-router-dom";
+import Particle from "../../components/Particles";
+import { Link, matchPath, Redirect } from "react-router-dom";
 import axios from "axios";
+import Toast from "../../components/toast/Toast";
+import { showToast } from "../../components/toast/helper/toastHelper";
 
-const PasswordResetScreen = ({ match }) => {
-
+const PasswordResetScreen = ({ match, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [list, setList] = useState([]);
+  let toastProperties = null;
 
   const handleOnCheckboxClick = () => {
     setIsChecked(!isChecked);
@@ -30,13 +32,18 @@ const PasswordResetScreen = ({ match }) => {
       }
     };
 
+    if((password.length < 6) && (confirmPassword.length < 6)){
+      toastProperties = showToast("error", "Password is less than 6 characters");
+
+      return setList([...list, toastProperties]);
+    }
+
     if (password !== confirmPassword) {
       setPassword("");
       setConfirmPassword("");
-      setTimeout(() => {
-        setError("");
-      }, 5000);
-      return setError("Passwords do not match");
+      toastProperties = showToast("error", "Passwords do not match");
+
+      return setList([...list, toastProperties]);
     }
 
     try {
@@ -47,27 +54,24 @@ const PasswordResetScreen = ({ match }) => {
         config
       );
 
-
       console.log("DATA =", data);
-      setSuccess(data.message);
+      
+      toastProperties = showToast("success", data.message);
+      setList([...list, toastProperties]);
+      setTimeout(() => {
+        history.push('/login');
+      }, 2000);
 
     } catch (err) {
-      setError(err.response.data.error);
-      setTimeout(() => {
-        setError("");
-      }, 6000);
+      toastProperties = showToast("error", err.response.data.error);
+      setList([...list, toastProperties]);
     }
   };
 
   const passResetForm = () => {
     return (
       <form onSubmit={resetPassHandler} className="passreset-form">
-        {error && <span className="error-message">{error}</span>}
-        {success && (
-          <span className="success-message">
-            {success}. <Link to="/login">Login</Link>
-          </span>
-        )}
+      
         <div className="form-field">
           <label htmlFor="password">Password:</label>
           <input
@@ -115,6 +119,7 @@ const PasswordResetScreen = ({ match }) => {
   return (
     <div className="passreset-container">
       <Particle />
+      <Toast toastList={list} autoDelete={true} dismissTime={3000} />
 
       <div className="passreset-card">
         <MyCard title="Reset Password">{passResetForm()}</MyCard>

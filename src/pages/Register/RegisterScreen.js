@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MyCard from "../../components/card/MyCard";
-import Particle from '../../components/Particles';
+import Particle from "../../components/Particles";
 import "./RegisterScreen.css";
 import axios from "axios";
 import { authenticate, isAuthenticate } from "../../auth/authHelper";
+import Toast from "../../components/toast/Toast";
+import { showToast } from "../../components/toast/helper/toastHelper";
 
 const RegisterScreen = ({ history }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,25 +17,38 @@ const RegisterScreen = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
 
-  
+  const [list, setList] = useState([]);
+  let toastProperties = null;
+
   useEffect(() => {
-    if(isAuthenticate()){
-      history.push('/');
+    if (isAuthenticate()) {
+      history.push("/");
     }
-  }, [history])
+  }, [history]);
 
   const registerHandler = async (e) => {
     e.preventDefault();
 
+    if(userName.length < 5){
+      toastProperties = showToast("error", "Username is less than 5 characters");
+
+      return setList([...list, toastProperties]);
+    }
+
+    if(password.length < 6){
+      toastProperties = showToast("error", "Password is less than 6 characters");
+
+      return setList([...list, toastProperties]);
+    }
+
     if (password !== confirmPassword) {
       setPassword("");
       setConfirmPassword("");
-      setTimeout(() => {
-        setError("");
-      }, 5000);
-      return setError("Passwords do not match");
+
+      toastProperties = showToast("error", "Passwords do not match");
+
+      return setList([...list, toastProperties]);
     }
 
     const config = {
@@ -53,10 +68,9 @@ const RegisterScreen = ({ history }) => {
       authenticate(data);
       history.push("/");
     } catch (err) {
-      setError(err.response.data.error);
-      setTimeout(() => {
-        setError("");
-      }, 6000);
+      toastProperties = showToast("error", err.response.data.error);
+      
+      setList([...list, toastProperties]);
     }
   };
 
@@ -69,7 +83,7 @@ const RegisterScreen = ({ history }) => {
   const registerForm = () => {
     return (
       <form onSubmit={registerHandler} className="register-form">
-        {error && <span className="error-message">{error}</span>}
+        
         <div className="form-field">
           <label htmlFor="name">Username:</label>
           <input
@@ -151,7 +165,11 @@ const RegisterScreen = ({ history }) => {
     <div className="register-container">
       <Particle />
 
+      <Toast toastList={list} autoDelete={true} dismissTime={3000} />
+
       <div className="register-card">
+      
+
         <MyCard title="Register">{registerForm()}</MyCard>
       </div>
     </div>

@@ -3,11 +3,15 @@ import "./ForgotPassword.css";
 import MyCard from "../../components/card/MyCard";
 import axios from "axios";
 import Particle from '../../components/Particles';
+import { showToast } from "../../components/toast/helper/toastHelper";
+import Toast from "../../components/toast/Toast";
+
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
+  const [list, setList] = useState([]);
+  let toastProperties = null;
 
   const forgotPassHandler = async (e) => {
     e.preventDefault();
@@ -22,22 +26,22 @@ const ForgotPasswordScreen = () => {
       const { data } = await axios.post("/api/v1/auth/forgotpassword", { email }, config);
 
       console.log("DATA - ",data);
-      setSuccess(data.data);
+
+      toastProperties = showToast('success', data.data);
+      setList([...list, toastProperties]);
+
     } catch (err) {
-      setError(err.response.data.error);
+     
       setEmail("");
-      setTimeout(() => {
-        setError("");
-      }, 5000);
+      toastProperties = showToast('error', err.response.data.error)
+      setList([...list, toastProperties]);
     }
   };
 
   const forgotPassForm = () => {
     return (
       <form onSubmit={forgotPassHandler} className="forgotpass-form">
-        {error && <span className="error-message">{error}</span>}
-        {success && <span className="success-message">{success}</span>}
-
+    
         <p className="fogotpass-text">
           Please enter the email address you register your account with. We will send you reset
           password confirmation to this email
@@ -64,7 +68,7 @@ const ForgotPasswordScreen = () => {
   return (
     <div className="forgotpass-container">
       <Particle />
-
+      <Toast toastList={list} autoDelete={true} dismissTime={3000} />
       <div className="forgotpass-card">
         <MyCard title="Forgot Password">{forgotPassForm()}</MyCard>
       </div>

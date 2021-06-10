@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from "react";
 import "./LogInScreen.css";
 import MyCard from "../../components/card/MyCard";
-import Particle from '../../components/Particles';
+import Particle from "../../components/Particles";
 import { Link } from "react-router-dom";
 import { authenticate, isAuthenticate } from "../../auth/authHelper";
 import axios from "axios";
+import Toast from "../../components/toast/Toast";
 
-const LogInScreen = ({history}) => {
+import { showToast } from "../../components/toast/helper/toastHelper";
+
+const LogInScreen = ({ history }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  
+  const [list, setList] = useState([]);
+  let toastProperties = null;
 
   useEffect(() => {
-    if(isAuthenticate()){
-      history.push('/');
+    if (isAuthenticate()) {
+      history.push("/");
     }
-  }, [history])
+  }, [history]);
 
   const handleOnCheckboxClick = () => {
     setIsChecked(!isChecked);
@@ -35,29 +39,23 @@ const LogInScreen = ({history}) => {
     };
 
     try {
-      const { data } = await axios.post(
-        "/api/v1/auth/login",
-        { email, password },
-        config
-      );
+      const { data } = await axios.post("/api/v1/auth/login", { email, password }, config);
       console.log("DATA", data);
 
       authenticate(data);
-      history.push("/");
+      history.push("/");  
     } catch (err) {
-      console.log("ERR", err);
-      setError(err.response.data.error);
-      setTimeout(() => {
-        setError("");
-      }, 6000);
+     
+     toastProperties = showToast('error', err.response.data.error)
+     setList([...list, toastProperties]);
+     
     }
-
-  }
+  };
 
   const loginForm = () => {
     return (
       <form onSubmit={loginHandler} className="login-form">
-        {error && <span className="error-message">{error}</span>}
+    
         <div className="form-field">
           <label htmlFor="email">Email:</label>
           <input
@@ -117,8 +115,9 @@ const LogInScreen = ({history}) => {
   return (
     <div className="login-container">
       <Particle />
-
+      <Toast toastList={list} autoDelete={true} dismissTime={3000} />
       <div className="login-card">
+        
         <MyCard title="Login">{loginForm()}</MyCard>
       </div>
     </div>
