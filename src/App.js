@@ -1,31 +1,16 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import axios from "axios";
+import Routes from "./Routes";
+import { AuthContextProvider } from "./context/AuthContext";
 
-//* screens
-import LogInScreen from "./pages/LogIn/LogInScreen";
-import RegisterScreen from "./pages/Register/RegisterScreen";
-import ForgotPasswordScreen from "./pages/Forgot password/ForgotPasswordScreen";
-import PasswordResetScreen from "./pages/Password reset/PasswordResetScreen";
-import HomeScreen from "./pages/Home/HomeScreen";
+axios.defaults.withCredentials = true;
 
-//* Routing
-import PrivateRoute from "./components/routing/PrivateRoute";
-
-function App() {
+const App = () => {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login" exact component={LogInScreen} />
+    <AuthContextProvider>
+    <Routes />
 
-        <Route path="/register" exact component={RegisterScreen} />
-
-        <Route path="/forgotpassword" exact component={ForgotPasswordScreen} />
-
-        <Route path="/passwordreset/:resetToken" exact component={PasswordResetScreen} />
-
-        <PrivateRoute path="/" exact component={HomeScreen} />
-      </Switch>
-    </BrowserRouter>
+    </AuthContextProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./LogInScreen.css";
 import MyCard from "../../components/card/MyCard";
 import Particle from "../../components/Particles";
@@ -8,21 +8,26 @@ import axios from "axios";
 import Toast from "../../components/toast/Toast";
 
 import { showToast } from "../../components/toast/helper/toastHelper";
+import AuthContext from "../../context/AuthContext";
 
 const LogInScreen = ({ history }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const [list, setList] = useState([]);
   let toastProperties = null;
 
-  useEffect(() => {
-    if (isAuthenticate()) {
-      history.push("/");
-    }
-  }, [history]);
+  const { loggedIn, getLoggedIn } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   console.log('LOGGEDIN in login', loggedIn);
+
+  //   if (loggedIn === undefined) {
+  //     history.push("/");
+  //   }
+  // }, [history]);
 
   const handleOnCheckboxClick = () => {
     setIsChecked(!isChecked);
@@ -40,22 +45,20 @@ const LogInScreen = ({ history }) => {
 
     try {
       const { data } = await axios.post("/api/v1/auth/login", { email, password }, config);
-      console.log("DATA", data);
+      console.log("COOKIE", data);
 
-      authenticate(data);
-      history.push("/");  
+      await getLoggedIn();
+      
+      history.push("/");
     } catch (err) {
-     
-     toastProperties = showToast('error', err.response.data.error)
-     setList([...list, toastProperties]);
-     
+      toastProperties = showToast("error", err.response.data.error);
+      setList([...list, toastProperties]);
     }
   };
 
   const loginForm = () => {
     return (
       <form onSubmit={loginHandler} className="login-form">
-    
         <div className="form-field">
           <label htmlFor="email">Email:</label>
           <input
@@ -117,7 +120,6 @@ const LogInScreen = ({ history }) => {
       <Particle />
       <Toast toastList={list} autoDelete={true} dismissTime={3000} />
       <div className="login-card">
-        
         <MyCard title="Login">{loginForm()}</MyCard>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import MyCard from "../../components/card/MyCard";
 import Particle from "../../components/Particles";
@@ -7,6 +7,9 @@ import axios from "axios";
 import { authenticate, isAuthenticate } from "../../auth/authHelper";
 import Toast from "../../components/toast/Toast";
 import { showToast } from "../../components/toast/helper/toastHelper";
+import Cookies from 'universal-cookie';
+import AuthContext from "../../context/AuthContext";
+const cookies = new Cookies();
 
 const RegisterScreen = ({ history }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,14 +21,17 @@ const RegisterScreen = ({ history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { loggedIn,getLoggedIn } = useContext(AuthContext);
+
   const [list, setList] = useState([]);
   let toastProperties = null;
 
-  useEffect(() => {
-    if (isAuthenticate()) {
-      history.push("/");
-    }
-  }, [history]);
+  // useEffect(() => {
+  //   console.log('LOGGEDIN', loggedIn);
+  //   if (loggedIn === undefined) {
+  //     history.push("/");
+  //   }
+  // }, [history]);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -64,8 +70,9 @@ const RegisterScreen = ({ history }) => {
         config
       );
       console.log("DATA", data);
-
-      authenticate(data);
+      console.log("COOKIE - ",cookies.get('token'));
+      // authenticate(data);
+      await getLoggedIn();
       history.push("/");
     } catch (err) {
       toastProperties = showToast("error", err.response.data.error);

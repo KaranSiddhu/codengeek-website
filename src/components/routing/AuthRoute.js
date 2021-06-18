@@ -1,21 +1,22 @@
+// NOTE This route is only for sign in and register page
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isAuthenticate } from "../../auth/authHelper";
 import AuthContext from "../../context/AuthContext";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const AuthRoute = ({ component: Component, ...rest }) => {
   const { loggedIn } = useContext(AuthContext);
-  console.log("LOGGED IN -", loggedIn);
+
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        loggedIn ? (
+        !loggedIn ? (
           <Component {...props} />
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/",
               state: { from: props.location }
             }}
           />
@@ -25,4 +26,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default PrivateRoute;
+export default AuthRoute;

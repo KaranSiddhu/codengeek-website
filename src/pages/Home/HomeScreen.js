@@ -1,43 +1,54 @@
+import React, { useContext } from "react";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router";
-import { authenticate, isAuthenticate } from "../../auth/authHelper";
+import AuthContext from "../../context/AuthContext";
 import "./HomeScreen.css";
 
 const HomeScreen = ({ history }) => {
-  const [error, setError] = useState("");
-  const [userData, setUserData] = useState("");
+  const { loggedIn, getLoggedIn } = useContext(AuthContext);
 
-  const fetchData = async () => {
-    const token = isAuthenticate();
-    console.log(token.token);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token.token}`
-      }
-    };
+  console.log("LOGGED IN -", loggedIn);
 
-    try {
-      const { data } = await axios.get("/api/v1/private", config);
-      console.log("DATA", data);
-      setUserData(data);
-    } catch (ere) {
-      console.log("ERROR", ere);
-    }
+  const handleSignOut = async () => {
+    const { data } = await axios.get("/api/v1/auth/signout");
+    console.log("DATa", data);
+    await getLoggedIn();
+
+    history.push("/login");
   };
 
-  useEffect(() => {
-    if (!isAuthenticate()) {
-      history.push("/login");
-    }
+  const handleLogIn = () => {
+    history.push("/login");
+  };
 
-    fetchData();
-  }, [history]);
+  const handleProfilePage = () => {
+    history.push("/user/profile");
+  };
+
+  const handleRegister = () => {
+    history.push("/register");
+  };
 
   return (
     <div>
-      <h1>Home{userData.data}</h1>
+      <h1>Home</h1>
+      {!loggedIn ? (
+        <h1 style={{ color: "red" }}>You are not logged In</h1>
+      ) : (
+        <h1 style={{ color: "green" }}>You are logged In</h1>
+      )}
+      
+      {!loggedIn && (
+        <>
+          <button onClick={handleLogIn}>Login</button>
+          <button onClick={handleRegister}>Register</button>
+        </>
+      )}
+      {loggedIn  && (
+        <>
+          <button onClick={handleProfilePage}>Profile page</button>
+          <button onClick={handleSignOut}>Sign out</button>
+        </>
+      )}
     </div>
   );
 };
