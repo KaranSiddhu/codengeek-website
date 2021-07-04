@@ -6,6 +6,7 @@ import { Link, matchPath, Redirect } from "react-router-dom";
 import axios from "axios";
 import Toast from "../../components/toast/Toast";
 import { showToast } from "../../components/toast/helper/toastHelper";
+import { API } from "../../api/backendApi";
 
 const PasswordResetScreen = ({ match, history }) => {
   const [password, setPassword] = useState("");
@@ -49,7 +50,7 @@ const PasswordResetScreen = ({ match, history }) => {
     try {
       console.log("MATCH =", match);
       const { data } = await axios.put(
-        `/api/v1/auth/resetpassword/${match.params.resetToken}`,
+        `${API}/auth/resetpassword/${match.params.resetToken}`,
         { password },
         config
       );

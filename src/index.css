@@ -10,7 +10,7 @@ body{
   background-color: #F1F1F1;
 }
 
-/* Register,LogIn Form fields and show pass */
+/* NOTE Register,LogIn Form fields and show pass */
 
 .form-field{
   display: flex;
@@ -102,3 +102,4 @@ input{
   padding: 6px;
 
 }
+

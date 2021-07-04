@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./LogInScreen.css";
 import MyCard from "../../components/card/MyCard";
 import Particle from "../../components/Particles";
 import { Link } from "react-router-dom";
-import { authenticate, isAuthenticate } from "../../auth/authHelper";
+
 import axios from "axios";
 import Toast from "../../components/toast/Toast";
 
 import { showToast } from "../../components/toast/helper/toastHelper";
 import AuthContext from "../../context/AuthContext";
+import { API } from "../../api/backendApi";
 
 const LogInScreen = ({ history }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,14 +45,19 @@ const LogInScreen = ({ history }) => {
     };
 
     try {
-      const { data } = await axios.post("/api/v1/auth/login", { email, password }, config);
+      
+      const { data } = await axios.post(`${API}/auth/login`, { email, password }, config);
+      
+
       console.log("COOKIE", data);
 
       await getLoggedIn();
-      
+
       history.push("/");
     } catch (err) {
-      toastProperties = showToast("error", err.response.data.error);
+      
+      
+      toastProperties = showToast("error", err.response.data.message);
       setList([...list, toastProperties]);
     }
   };

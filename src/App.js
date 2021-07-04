@@ -8,10 +8,9 @@ axios.defaults.withCredentials = true;
 const App = () => {
   return (
     <AuthContextProvider>
-    <Routes />
-
+      <Routes />
     </AuthContextProvider>
   );
-}
+};
 
 export default App;

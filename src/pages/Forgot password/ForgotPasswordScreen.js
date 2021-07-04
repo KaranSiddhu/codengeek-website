@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./ForgotPassword.css";
 import MyCard from "../../components/card/MyCard";
 import axios from "axios";
-import Particle from '../../components/Particles';
+import Particle from "../../components/Particles";
 import { showToast } from "../../components/toast/helper/toastHelper";
 import Toast from "../../components/toast/Toast";
-
+import { API } from "../../api/backendApi";
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");
@@ -23,17 +23,15 @@ const ForgotPasswordScreen = () => {
     };
 
     try {
-      const { data } = await axios.post("/api/v1/auth/forgotpassword", { email }, config);
+      const { data } = await axios.post(`${API}/auth/forgotpassword`, { email }, config);
 
-      console.log("DATA - ",data);
+      console.log("DATA - ", data);
 
-      toastProperties = showToast('success', data.data);
+      toastProperties = showToast("success", data.data);
       setList([...list, toastProperties]);
-
     } catch (err) {
-     
       setEmail("");
-      toastProperties = showToast('error', err.response.data.error)
+      toastProperties = showToast("error", err.response.data.error);
       setList([...list, toastProperties]);
     }
   };
@@ -41,7 +39,6 @@ const ForgotPasswordScreen = () => {
   const forgotPassForm = () => {
     return (
       <form onSubmit={forgotPassHandler} className="forgotpass-form">
-    
         <p className="fogotpass-text">
           Please enter the email address you register your account with. We will send you reset
           password confirmation to this email

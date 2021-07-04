@@ -1,4 +1,4 @@
-// NOTE This route is only for sign in and register page
+// NOTE This route is only for sign in and register page. The user will see this to screens only when thet are not loggedin
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
