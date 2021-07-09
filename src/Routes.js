@@ -24,8 +24,6 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={HomeScreen} />
 
-        {/* <PrivateRoute path="/user/profile" exact component={ProfilePage} /> */}
-
         {loggedIn && <Route path="/user/profile" exact component={ProfilePage} />}
 
         <AuthRoute path="/login" exact component={LogInScreen} />
@@ -37,16 +35,6 @@ const Routes = () => {
         <Route path="/passwordreset/:resetToken" exact component={PasswordResetScreen} />
 
         <Route path="/email/verify/:verifyEmailToken" exact component={EmailVerify} />
-
-        {/* {!loggedIn ? (
-          <>
-            <Route path="/login" exact component={LogInScreen} />
-
-            <Route path="/register" exact component={RegisterScreen} />
-          </>
-        ) : (
-          <Redirect to='/' />
-        )} */}
       </Switch>
       <Footer />
     </BrowserRouter>

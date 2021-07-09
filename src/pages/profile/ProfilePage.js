@@ -7,31 +7,31 @@ import { showToast } from "../../components/toast/helper/toastHelper";
 import { API } from "../../api/backendApi";
 
 const ProfilePage = ({ history }) => {
-  const [error, setError] = useState("");
-  const [userData, setUserData] = useState("");
+  // const [error, setError] = useState("");
+  // const [userData, setUserData] = useState("");
 
   const [list, setList] = useState([]);
   let toastProperties = null;
 
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, userData } = useContext(AuthContext);
   console.log("LOGGED IN or not -", loggedIn);
 
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get(`${API}/private`);
+  // const fetchData = async () => {
+  //   try {
+  //     const { data } = await axios.get(`${API}/private`);
      
   
-      console.log("DATA", data.user);
-      setUserData(data.user);
-    } catch (ere) {
-      console.log("ERROR", ere);
-      setError(ere);
-    }
-  };
+  //     console.log("DATA", data.user);
+  //     setUserData(data.user);
+  //   } catch (ere) {
+  //     console.log("ERROR", ere);
+  //     setError(ere);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const handleVerifyEmail = async () => {
     const config = {
@@ -65,7 +65,7 @@ const ProfilePage = ({ history }) => {
       {/* {userData ? <h1>{userData.data}</h1> : ""} */}
       <Toast toastList={list} autoDelete={true} dismissTime={3000} />
 
-      {error ? <h1>{error}</h1> : ""}
+      {/* {error ? <h1>{error}</h1> : ""} */}
 
       {userData ? <h2>{userData.email}</h2> : ""}
 

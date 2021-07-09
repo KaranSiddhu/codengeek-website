@@ -7,7 +7,7 @@ import { API } from "../../api/backendApi";
 
 const HomeScreen = ({ history }) => {
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
-
+console.log('HISTORY', history);
   console.log("LOGGED IN -", loggedIn);
 
   const handleSignOut = async () => {

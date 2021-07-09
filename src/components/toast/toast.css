@@ -6,7 +6,7 @@
 
 .top-right {
   top: 12px;
-  right: 12px;
+  right: 3px;
   transition: transform 0.6s ease-in-out;
   animation: toast-in-right 0.7s;
 }
