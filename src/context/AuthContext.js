@@ -21,8 +21,8 @@ export const AuthContextProvider = ({ children }) => {
     try {
       const { data } = await axios.get(`${API}/private`);
   
-      console.log("DATA", data.user);
-      setUserData(data.user);
+      console.log("DATA from context", data.user.fullName);
+      setUserData(data.user.fullName);
     } catch (ere) {
       console.log("ERROR", ere);
       setError(ere);
@@ -41,7 +41,7 @@ export const AuthContextProvider = ({ children }) => {
   },[loggedIn]);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, getLoggedIn, userData }}>
+    <AuthContext.Provider value={{ loggedIn, getLoggedIn, userData, fetchData }}>
       {children}
     </AuthContext.Provider>
   );

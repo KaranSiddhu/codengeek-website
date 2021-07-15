@@ -1,59 +1,70 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { QuotesAPI } from "../../api/backendApi";
 import AuthContext from "../../context/AuthContext";
 import "./HomeScreen.css";
-import Particle from "../../components/Particles";
-import { API } from "../../api/backendApi";
+// import Particle from "../../components/Particles";
 
 const HomeScreen = ({ history }) => {
-  const { loggedIn, getLoggedIn } = useContext(AuthContext);
-console.log('HISTORY', history);
-  console.log("LOGGED IN -", loggedIn);
+  const [quotes, setQuotes] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const handleSignOut = async () => {
-    const { data } = await axios.get(`${API}/auth/signout`);
+  const { loggedIn } = useContext(AuthContext);
+  
+  const getQuotes = async () => {
+    try {
+      setLoading(true);
+      
+      const { data } = await axios.get(QuotesAPI, { withCredentials: false });
+      
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
 
-    console.log("DATa", data);
-    await getLoggedIn();
+      const random = Math.floor(Math.random() * data.length);
+      setQuotes(data[random]);
 
-    history.push("/login");
+      // console.log("QUOTES", data[random]);
+    } catch (error) {
+      console.log("ERROR - ", error.message);
+    }
   };
 
-  const handleLogIn = () => {
-    history.push("/login");
+  useEffect(() => {
+    getQuotes();
+  }, []);
+
+  const quote = (text, author) => {
+    return (
+      <p id="quote">
+        <strong>"{text}"</strong> <br></br>
+        <span> - {author === null ? "Anonymous" : author}</span>
+      </p>
+    );
   };
 
-  const handleProfilePage = () => {
-    history.push("/user/profile");
-  };
-
-  const handleRegister = () => {
-    history.push("/register");
-  };
+  const homePageContent = () => {
+    return (
+      <>
+        {quote(quotes.text, quotes.author)}
+      </>
+    );
+  }
 
   return (
     <div className="homescreen-container">
       {/* <Particle /> */}
       <div className="home-content">
-        <h1>Home</h1>
-        {!loggedIn ? (
-          <h1 style={{ color: "red" }}>You are not logged In</h1>
-        ) : (
-          <h1 style={{ color: "green" }}>You are logged In</h1>
-        )}
 
-        {!loggedIn && (
-          <>
-            <button onClick={handleLogIn}>Login</button>
-            <button onClick={handleRegister}>Register</button>
-          </>
-        )}
-        {loggedIn && (
-          <>
-            <button onClick={handleProfilePage}>Profile page</button>
-            <button onClick={handleSignOut}>Sign out</button>
-          </>
-        )}
+        {loading ? (
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        ) : homePageContent()}
+
       </div>
     </div>
   );
