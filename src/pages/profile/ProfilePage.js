@@ -37,14 +37,14 @@ const ProfilePage = ({ history }) => {
   }, []);
 
   const handleSignOut = async () => {
-    console.log("SIGN OUT");
-
+    
     try {
+      console.log("SIGN OUT");
       const { data } = await axios.get(`${API}/auth/signout`);
       console.log("DATa", data);
       await getLoggedIn();
     } catch (err) {
-      console.log(err);
+      console.log("SIGN OUT ERROR🔥 - ",err);
     }
 
     history.push("/login");
@@ -95,9 +95,10 @@ const ProfilePage = ({ history }) => {
 
           <li className="navigation_list_group_item">
             {/* <a href="#" onClick={handleSignOut} >Sign Out</a> */}
-            <button onClick={handleSignOut} className="btn btn-primary">
+            {/* <button onClick={handleSignOut} className="btn btn-primary">
               Sign Out
-            </button>
+            </button> */}
+            <button onClick={handleSignOut}>Sign out</button>
           </li>
         </ul>
       </div>

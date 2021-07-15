@@ -13,6 +13,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const getLoggedIn = async () => {
     try {
+      console.log("GET LOGGED IN FUNCTION RUN");
       const { data } = await axios.get(`${API}/auth/loggedin`);
       setLoggedIn(data);
     } catch (err) {
@@ -20,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
- 
+  console.log("AUTH CONTEXT - ", loggedIn);
 
   useEffect(() => {
     getLoggedIn();
