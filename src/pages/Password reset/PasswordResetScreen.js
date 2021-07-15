@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./PasswordReset.css";
 import MyCard from "../../components/card/MyCard";
 import Particle from "../../components/Particles";
-import { Link, matchPath, Redirect } from "react-router-dom";
+// import { Link, matchPath, Redirect } from "react-router-dom";
 import axios from "axios";
 import Toast from "../../components/toast/Toast";
 import { showToast } from "../../components/toast/helper/toastHelper";

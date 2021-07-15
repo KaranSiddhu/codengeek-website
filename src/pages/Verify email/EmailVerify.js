@@ -14,25 +14,28 @@ const EmailVerify = ({ match, history }) => {
   const [list, setList] = useState([]);
   let toastProperties = null;
 
-  const verifyEmail = async () => {
-    try {
-      const { data } = await axios.get(`${API}/auth/email/verify/${match.params.verifyEmailToken}`);
-      console.log("DATA", data);
-      if (data.success) {
-        setIsLoading(false);
-        toastProperties = showToast("success", data.message);
-        setList([...list, toastProperties]);
-      
-      }
-    } catch (err) {
-      setIsLoading(true);
-      console.log("ERROR - ", err.response.data.error);
-      toastProperties = showToast("error", "Something went wrong please try again later.");
-      setList([...list, toastProperties]);
-    }
-  };
+ 
 
   useEffect(() => {
+
+    const verifyEmail = async () => {
+      try {
+        const { data } = await axios.get(`${API}/auth/email/verify/${match.params.verifyEmailToken}`);
+        console.log("DATA", data);
+        if (data.success) {
+          setIsLoading(false);
+          toastProperties = showToast("success", data.message);
+          setList([...list, toastProperties]);
+        
+        }
+      } catch (err) {
+        setIsLoading(true);
+        console.log("ERROR - ", err.response.data.error);
+        toastProperties = showToast("error", "Something went wrong please try again later.");
+        setList([...list, toastProperties]);
+      }
+    };
+
     verifyEmail();
   }, []);
 

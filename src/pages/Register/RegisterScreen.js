@@ -66,10 +66,9 @@ const RegisterScreen = ({ history }) => {
       console.log("DATA", data);
 
       await getLoggedIn();
-      toastProperties = showToast("success", 'Verification email send');
-      setList([...list, toastProperties]);
+      
      
-      // history.push("/");
+      history.push("/");
 
       
     } catch (err) {

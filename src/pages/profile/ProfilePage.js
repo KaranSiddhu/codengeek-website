@@ -6,7 +6,7 @@ import Toast from "../../components/toast/Toast";
 import { showToast } from "../../components/toast/helper/toastHelper";
 import { API } from "../../api/backendApi";
 import { TiTick } from "react-icons/ti";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const ProfilePage = ({ history }) => {
   // const [error, setError] = useState("");
@@ -38,7 +38,7 @@ const ProfilePage = ({ history }) => {
 
   const handleSignOut = async () => {
     console.log("SIGN OUT");
-    
+
     try {
       const { data } = await axios.get(`${API}/auth/signout`);
       console.log("DATa", data);
@@ -48,17 +48,15 @@ const ProfilePage = ({ history }) => {
     }
 
     history.push("/login");
-
   };
 
   const handleVerifyEmail = async () => {
-    
     const config = {
       headers: {
         "Content-Type": "application/json"
       }
     };
-    
+
     try {
       const { data } = await axios.post(
         `${API}/auth/email/verify`,
@@ -76,8 +74,6 @@ const ProfilePage = ({ history }) => {
       toastProperties = showToast("error", "Something went wrong please try again");
       setList([...list, toastProperties]);
     }
-
-
   };
 
   const leftSection = () => {
@@ -88,15 +84,20 @@ const ProfilePage = ({ history }) => {
 
         <ul className="navigation_list_group">
           <li className="navigation_list_group_item">
-            <a href="#">Edit Profile</a>
+            {/* <a href="#">Edit Profile</a> */}
+            <button className="btn btn-primary">Edit Profile</button>
           </li>
 
           <li className="navigation_list_group_item">
-            <a href="#">Create Blog</a>
+            {/* <a href="#">Create Blog</a> */}
+            <button className="btn btn-primary">Create Blog</button>
           </li>
-          
+
           <li className="navigation_list_group_item">
-            <a href="#" onClick={handleSignOut} >Sign Out</a>
+            {/* <a href="#" onClick={handleSignOut} >Sign Out</a> */}
+            <button onClick={handleSignOut} className="btn btn-primary">
+              Sign Out
+            </button>
           </li>
         </ul>
       </div>
@@ -121,19 +122,22 @@ const ProfilePage = ({ history }) => {
             {userData.email}
 
             {userData.isEmailVerified ? (
-              <TiTick  />
+              <TiTick />
             ) : (
               <ul className="verify_email_link_list">
                 <li>
                   Email is not verified.&nbsp;
-                  <a
-                    href="#"
-                    onClick={handleVerifyEmail}
-                    className="verify_email_span"
-                    
+                  {/* <a 
+                  href="#" 
+                  onClick={handleVerifyEmail}
+                  className="verify_email_span"
                   >
                     Verify Email
-                  </a>
+                  </a> */}
+
+                <button onClick={handleVerifyEmail} className="btn btn-primary">Verify Email</button>
+
+
                 </li>
               </ul>
             )}

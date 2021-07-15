@@ -20,7 +20,7 @@ const LogInScreen = ({ history }) => {
   const [list, setList] = useState([]);
   let toastProperties = null;
 
-  const { loggedIn, getLoggedIn } = useContext(AuthContext);
+  const {  getLoggedIn } = useContext(AuthContext);
 
   // useEffect(() => {
   //   console.log('LOGGEDIN in login', loggedIn);

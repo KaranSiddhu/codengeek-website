@@ -1,47 +1,53 @@
-import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
+import React, { useState, useEffect, createContext } from "react";
 import { API } from "../api/backendApi";
+
+axios.defaults.withCredentials = true;
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState("");
-  const [error, setError] = useState("");
-
-
+  // const [error, setError] = useState("");
 
   const getLoggedIn = async () => {
-    const { data } = await axios.get(`${API}/auth/loggedin`);
-    setLoggedIn(data);
-  };
-
-  
-  const fetchData = async () => {
     try {
-      const { data } = await axios.get(`${API}/private`);
-  
-      console.log("DATA from context", data.user.fullName);
-      setUserData(data.user.fullName);
-    } catch (ere) {
-      console.log("ERROR", ere);
-      setError(ere);
+      const { data } = await axios.get(`${API}/auth/loggedin`);
+      setLoggedIn(data);
+    } catch (err) {
+      console.log("AUTH CONTEXT ERROR - ", err);
     }
   };
+
+ 
 
   useEffect(() => {
     getLoggedIn();
   }, []);
 
   useEffect(() => {
-    if(loggedIn){
+
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${API}/private`);
+  
+        console.log("DATA from context", data.user.fullName);
+        setUserData(data.user.fullName);
+      } catch (ere) {
+        console.log("ERROR", ere);
+        // setError(ere);
+      }
+    };
+
+    if (loggedIn) {
       console.log("IF data", userData);
       fetchData();
     }
-  },[loggedIn]);
+  }, [loggedIn]);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, getLoggedIn, userData, fetchData }}>
+    <AuthContext.Provider value={{ loggedIn, getLoggedIn, userData }}>
       {children}
     </AuthContext.Provider>
   );

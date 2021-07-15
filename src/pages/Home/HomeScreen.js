@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import axios from "axios";
 import { QuotesAPI } from "../../api/backendApi";
-import AuthContext from "../../context/AuthContext";
+// import AuthContext from "../../context/AuthContext";
 import "./HomeScreen.css";
 // import Particle from "../../components/Particles";
 
@@ -9,7 +9,7 @@ const HomeScreen = ({ history }) => {
   const [quotes, setQuotes] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { loggedIn } = useContext(AuthContext);
+  // const { loggedIn } = useContext(AuthContext);
   
   const getQuotes = async () => {
     try {

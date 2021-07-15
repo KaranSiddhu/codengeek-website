@@ -73,10 +73,10 @@
   list-style-type:initial;
 }
 
-.verify_email_link_list li :hover{
+/* .verify_email_link_list li :hover{
   color: #2ecc72;
   
-}
+} */
 
 
 
@@ -90,9 +90,9 @@
   margin-top: 15px;
 }
 
-.navigation_list_group_item  :hover{
+/* .navigation_list_group_item  :hover{
   color: #2ecc72;
-}
+} */
 
 @media screen and (max-width: 1280px) {
   .grid_background {

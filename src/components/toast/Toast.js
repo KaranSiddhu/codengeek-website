@@ -10,6 +10,13 @@ const Toast = ({ toastList, autoDelete, dismissTime }) => {
   }, [toastList, list]);
 
   //* Auto deleting
+
+  
+  const deleteToast = (id) => {
+    const listItemIndex = list.findIndex((e) => e.id === id);
+    list.splice(listItemIndex, 1);
+    setList([...list]);
+  };
   useEffect(() => {
     const interval = setInterval(() => {
       if (autoDelete && toastList.length && list.length) {
@@ -22,11 +29,7 @@ const Toast = ({ toastList, autoDelete, dismissTime }) => {
     };
   }, [toastList, autoDelete, dismissTime, list]);
 
-  const deleteToast = (id) => {
-    const listItemIndex = list.findIndex((e) => e.id === id);
-    list.splice(listItemIndex, 1);
-    setList([...list]);
-  };
+ 
 
   return (
     <>
@@ -36,7 +39,7 @@ const Toast = ({ toastList, autoDelete, dismissTime }) => {
             <CSSTransition key={i} timeout={500} classNames="transition">
               <div
                 key={i}
-                style={{ backgroundColor: toast.backgroundColor }}
+                style={{ backgroundColor: (toast.backgroundColor === null) ? "red" : toast.backgroundColor }}
                 className="notification toast top-right"
               >
                 <button id="deleteBtn" onClick={() => deleteToast(toast.id)}>
