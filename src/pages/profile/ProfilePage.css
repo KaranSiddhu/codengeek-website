@@ -44,7 +44,7 @@
 
 .heading_profile {
   font-weight: bold;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .profile_page_seperator {
@@ -93,6 +93,47 @@
 /* .navigation_list_group_item  :hover{
   color: #2ecc72;
 } */
+
+/* Modals */
+
+.delete_modal_buttons{
+  display: flex;
+}
+
+.delete_modal_buttons button{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.form-field-blog{
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+  margin: 0 15px;
+  margin-top: 10px;
+}
+
+.form-field-blog input {
+  border: none;
+  background-color: #eee;
+  padding: 10px 20px;
+  border-bottom: 3px solid transparent;
+  outline-width: 0;
+  /* margin-top: 10px; */
+  font-size: 1rem;
+  width: 100%;
+} 
+
+.form-field-blog textarea {
+  border: none;
+  background-color: #eee;
+  padding: 10px 20px;
+  border-bottom: 3px solid transparent;
+  outline-width: 0;
+  margin-top: 10px;
+  font-size: 1rem;
+  width: 100%;
+} 
 
 @media screen and (max-width: 1280px) {
   .grid_background {

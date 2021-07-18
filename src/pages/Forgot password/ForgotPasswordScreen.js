@@ -25,7 +25,7 @@ const ForgotPasswordScreen = () => {
     try {
       const { data } = await axios.post(`${API}/auth/forgotpassword`, { email }, config);
 
-      console.log("DATA - ", data);
+      // console.log("DATA - ", data);
 
       toastProperties = showToast("success", data.data);
       setList([...list, toastProperties]);

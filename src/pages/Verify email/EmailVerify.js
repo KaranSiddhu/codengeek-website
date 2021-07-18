@@ -14,33 +14,29 @@ const EmailVerify = ({ match, history }) => {
   const [list, setList] = useState([]);
   let toastProperties = null;
 
- 
-
-  useEffect(() => {
-
-    const verifyEmail = async () => {
-      try {
-        const { data } = await axios.get(`${API}/auth/email/verify/${match.params.verifyEmailToken}`);
-        console.log("DATA", data);
-        if (data.success) {
-          setIsLoading(false);
-          toastProperties = showToast("success", data.message);
-          setList([...list, toastProperties]);
-        
-        }
-      } catch (err) {
-        setIsLoading(true);
-        console.log("ERROR - ", err.response.data.error);
-        toastProperties = showToast("error", "Something went wrong please try again later.");
+  const verifyEmail = async () => {
+    try {
+      const { data } = await axios.get(`${API}/auth/email/verify/${match.params.verifyEmailToken}`);
+      console.log("DATA", data);
+      if (data.success) {
+        setIsLoading(false);
+        toastProperties = showToast("success", data.message);
         setList([...list, toastProperties]);
       }
-    };
+    } catch (err) {
+      setIsLoading(true);
+      console.log("ERROR - ", err.response.data.error);
+      toastProperties = showToast("error", "Something went wrong please try again later.");
+      setList([...list, toastProperties]);
+    }
+  };
 
+  useEffect(() => {
     verifyEmail();
   }, []);
 
   const handleContinueBtn = () => {
-    history.push('/');
+    history.push("/");
   };
 
   const loadingMessage = () => {
@@ -50,7 +46,7 @@ const EmailVerify = ({ match, history }) => {
           <h3>Please wait...</h3>
         ) : (
           <div>
-            <h3 style={{color:'#25c38a'}}>Thank You</h3>
+            <h3 style={{ color: "#25c38a" }}>Thank You</h3>
             <p style={{ marginTop: "10px" }}>You have verified your email</p>
             <button className="btn btn-primary" onClick={handleContinueBtn}>
               Continue

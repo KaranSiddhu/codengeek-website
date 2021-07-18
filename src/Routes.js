@@ -14,6 +14,8 @@ import AuthContext from "./context/AuthContext";
 import EmailVerify from "./pages/Verify email/EmailVerify";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
+import DisplayPost from "./pages/Single Post/DisplayPost";
+import Createpost from "./pages/create post/Createpost";
 
 const Routes = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -35,8 +37,12 @@ const Routes = () => {
         <Route path="/passwordreset/:resetToken" exact component={PasswordResetScreen} />
 
         <Route path="/email/verify/:verifyEmailToken" exact component={EmailVerify} />
+
+        <Route path="/post/:postId" exact component={DisplayPost} />
+
+        {loggedIn && <Route path="/create/post" exact component={Createpost} />}
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 };

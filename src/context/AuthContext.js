@@ -11,30 +11,34 @@ export const AuthContextProvider = ({ children }) => {
   const [userData, setUserData] = useState("");
   // const [error, setError] = useState("");
 
+
   const getLoggedIn = async () => {
     try {
-      console.log("GET LOGGED IN FUNCTION RUN");
+      // console.log("GET LOGGED IN FUNCTION RUN");
       const { data } = await axios.get(`${API}/auth/loggedin`);
       setLoggedIn(data);
+      // console.log("DATA OF AUTH CONTEXT - ", data);
     } catch (err) {
       console.log("AUTH CONTEXT ERROR - ", err);
     }
   };
 
-  console.log("AUTH CONTEXT - ", loggedIn);
+  // console.log("AUTH CONTEXT - ", loggedIn);
 
   useEffect(() => {
     getLoggedIn();
   }, []);
 
+  
+
   useEffect(() => {
 
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${API}/private`);
-  
-        console.log("DATA from context", data.user.fullName);
-        setUserData(data.user.fullName);
+        const { data } = await axios.get(`${API}/user`);
+        
+        // console.log("DATA from context", data.user.fullName);
+        setUserData(data.user);
       } catch (ere) {
         console.log("ERROR", ere);
         // setError(ere);
@@ -42,7 +46,7 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     if (loggedIn) {
-      console.log("IF data", userData);
+      // console.log("IF data", userData);
       fetchData();
     }
   }, [loggedIn]);

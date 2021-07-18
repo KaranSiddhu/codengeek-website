@@ -87,7 +87,7 @@ const Header = ({ history }) => {
                   </NavLink>
 
                   <NavLink to="/user/profile" exact className="profile-active-class">
-                    <Avatar name={userData} size="37" round={true} textSizeRatio={0} />
+                    <Avatar name={userData.fullName} size="37" round={true} textSizeRatio={0} />
                   </NavLink>
                 </div>
               </>

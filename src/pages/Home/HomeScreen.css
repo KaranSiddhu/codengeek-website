@@ -1,8 +1,8 @@
 .homescreen-container{
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  overflow-y: hidden;
+  /* width: 100%;
+  height: 100%; */
+  /* position: relative;
+  overflow-y: hidden; */
 }
 
 #quote{
@@ -10,6 +10,7 @@
   font-size: 25px; 
   margin: 25px;
 }
+
 
 @media screen and (max-width: 610px) {
   #quote{

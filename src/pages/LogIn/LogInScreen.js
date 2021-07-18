@@ -108,7 +108,7 @@ const LogInScreen = ({ history }) => {
         </div>
 
         <button type="submit" className="btn btn-primary">
-          Register
+          Log In
         </button>
 
         <span className="login-screen__subtext">

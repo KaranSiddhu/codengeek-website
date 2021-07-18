@@ -1,10 +1,21 @@
 .footer {
+  position: absolute; 
+  left: 0;
+  right: 0;
   background-color: black;
   color: #fff;
   text-align: center;
   font-weight: 600;
   padding: 2rem 0;
-
+  
+  
+  /* position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center; */
 }
 
 .footer_title {
