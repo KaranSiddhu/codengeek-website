@@ -2,9 +2,9 @@
 [Here](https://github.com/karan320/codengeek-backend) is the link for backend repository of codeNgeek.
 
 ##Steps to setup this projects <br />
--Clone this repository<br />
--npm install<br />
--npm start
+1. Clone this repository<br />
+2. npm install<br />
+3. npm start
 
 ##Port for front-end - [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
 
