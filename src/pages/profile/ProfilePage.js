@@ -187,7 +187,7 @@ const ProfilePage = ({ history }) => {
                 <TiTick />
                 <button 
                   className="btn btn-primary" 
-                  onClick={() => history.push(`/?user=${userData.email}`)}
+                  onClick={() => history.push(`/?user=${userData._id}`)}
                 >
                   Manage your blogs
                 </button>
@@ -368,7 +368,7 @@ const ProfilePage = ({ history }) => {
 
   const handleBlogSubmit = async (e) => {
     e.preventDefault();
-    file.set("userEmail", userData.email);
+    file.set("user", userData._id);
 
     try{
 
@@ -482,7 +482,7 @@ const ProfilePage = ({ history }) => {
         </div>
       </Modal>
 
-      {/* NOTE edit progile modal */}
+      {/* NOTE edit profile modal */}
       <Modal
         isOpen={isProfileModalOpen}
         onRequestClose={() => setIsProfileModalOpen(false)}

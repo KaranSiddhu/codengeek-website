@@ -12,12 +12,13 @@ const HomeScreen = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const { search } = useLocation();
-  
+
+
   // const {  } = useContext(AuthContext);
 
   const getQuotes = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
 
       const { data } = await axios.get(QuotesAPI, { withCredentials: false });
 
@@ -36,11 +37,11 @@ const HomeScreen = ({ history }) => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      console.log("LOCATION - ",search);
+      // console.log("LOCATION - ",search);
       try {
         setLoading(true);
         const { data } = await axios.get(`${API}/blogs/${search}`);
-        console.log("BLOG DATA ", data);
+        // console.log("BLOG DATA ", data);
         setLoading(false);
 
         setBlogs(data);
@@ -65,9 +66,11 @@ const HomeScreen = ({ history }) => {
 
   const showBlogs = () => {
     console.log("USE STATE", blogs);
-    return <div className="blogs__container">
-      { (blogs.length === 0) ? "" : <Posts posts={blogs.blogs}/>  }
-    </div>;
+    return (
+      <div className="blogs__container">
+        {blogs.length === 0 ? "" : <Posts posts={blogs.blogs} />}
+      </div>
+    );
   };
 
   const homePageContent = () => {
@@ -75,6 +78,7 @@ const HomeScreen = ({ history }) => {
       <>
         {quote(quotes.text, quotes.author)}
         {showBlogs()}
+        
       </>
     );
   };

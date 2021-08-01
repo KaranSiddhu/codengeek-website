@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { API } from "../../api/backendApi";
+import { API_IMG } from "../../api/backendApi";
 
 import "./posts.css";
 
@@ -8,8 +8,9 @@ const Posts = ({ posts }) => {
   return (
     <div className="posts">
       {posts.map((post, index) => {
+  
         let imageUrl = post.photo
-          ? `${API}/blog/photo/${post._id}`
+          ? post.photo
           : "https://redzonekickboxing.com/wp-content/uploads/2017/04/default-image.jpg";
 
         {/* console.log(post); */}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { API } from "../../api/backendApi";
+import { API, API_IMG } from "../../api/backendApi";
 import AuthContext from "../../context/AuthContext";
 
 import { FaEdit } from "react-icons/fa";
@@ -16,7 +16,7 @@ const DisplayPost = ({ match, history }) => {
   const [loading, setLoading] = useState(false);
 
   const { userData } = useContext(AuthContext);
-
+  console.log("SINGLE POST - ", post);
   useEffect(() => {
     const getPost = async () => {
       setLoading(true);
@@ -58,7 +58,7 @@ const DisplayPost = ({ match, history }) => {
       await axios.put(
         `${API}/blog/update/${post._id}`,
         {
-          userEmail: userData.email,
+          user: userData._id,
           title,
           desc
         },
@@ -72,7 +72,7 @@ const DisplayPost = ({ match, history }) => {
   };
 
   let imageUrl = post.photo
-    ? `${API}/blog/photo/${post._id}`
+    ? post.photo
     : "https://redzonekickboxing.com/wp-content/uploads/2017/04/default-image.jpg";
 
   const displayPostContent = () => {
@@ -92,8 +92,11 @@ const DisplayPost = ({ match, history }) => {
           ) : (
             <h1 className="singlePostTitle">
               {title}
-              {console.log("CHEKC🔥 - ", post.userEmail === userData.email)}
-              {post.userEmail === userData.email && (
+
+              {
+                (post.user === undefined 
+                  ? "" 
+                  : post.user.email) === userData.email && (
                 <div className="singlePostEdit">
                   <FaEdit
                     className="singlePostIcon far fa-edit"
@@ -107,8 +110,11 @@ const DisplayPost = ({ match, history }) => {
           <div className="singlePostInfo">
             <span className="singlePostAuthor">
               Author:
-              <Link to={`/?user=${post.userEmail}`} className="link_query">
-                <b> {post.userEmail}</b>
+              <Link
+                to={`/?user=${post.user === undefined ? "" : post.user._id}`}
+                className="link_query"
+              >
+                <b>{post.user === undefined ? "" : post.user.email}</b>
               </Link>
             </span>
             <span className="singlePostDate">{new Date(post.createdAt).toDateString()}</span>

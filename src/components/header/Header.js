@@ -23,9 +23,12 @@ const Header = ({ history }) => {
     <section className="header">
       <section className="header-top">
         <section className="header-top__logo">
-          <NavLink to="/" exact activeClassName="active-class">
+          {/* <NavLink to="/" exact activeClassName="active-class"> */}
+          <a href="/">
             <img src={logo} alt="LOGO" />
-          </NavLink>
+          </a>  
+          
+          {/* </NavLink> */}
         </section>
 
         <section 
