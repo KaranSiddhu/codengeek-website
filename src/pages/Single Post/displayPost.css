@@ -103,3 +103,25 @@
   align-self: flex-end;
   margin-top: 20px;
 }
+
+
+
+@media screen and (max-width: 470px) {
+  .link_query strong {
+    font-size: 13px;
+  } 
+  .singlePostTitle {
+    font-size: 23px;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .singlePostInfo{
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .singlePostTitle {
+    font-size: 21px;
+  }
+}

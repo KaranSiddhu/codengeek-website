@@ -93,10 +93,7 @@ const DisplayPost = ({ match, history }) => {
             <h1 className="singlePostTitle">
               {title}
 
-              {
-                (post.user === undefined 
-                  ? "" 
-                  : post.user.email) === userData.email && (
+              {(post.user === undefined ? "" : post.user.email) === userData.email && (
                 <div className="singlePostEdit">
                   <FaEdit
                     className="singlePostIcon far fa-edit"
@@ -114,7 +111,7 @@ const DisplayPost = ({ match, history }) => {
                 to={`/?user=${post.user === undefined ? "" : post.user._id}`}
                 className="link_query"
               >
-                <b>{post.user === undefined ? "" : post.user.email}</b>
+                <strong>{post.user === undefined ? "" : post.user.email}</strong>
               </Link>
             </span>
             <span className="singlePostDate">{new Date(post.createdAt).toDateString()}</span>
