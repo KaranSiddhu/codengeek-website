@@ -16,6 +16,7 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import DisplayPost from "./pages/Single Post/DisplayPost";
 import Createpost from "./pages/create post/Createpost";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
 const Routes = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -26,7 +27,8 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={HomeScreen} />
 
-        {loggedIn && <Route path="/user/profile" exact component={ProfilePage} />}
+        {/* {loggedIn && <Route path="/user/profile" exact component={ProfilePage} />} */}
+        <PrivateRoute path="/user/profile" exact component={ProfilePage} />
 
         <AuthRoute path="/login" exact component={LogInScreen} />
 
