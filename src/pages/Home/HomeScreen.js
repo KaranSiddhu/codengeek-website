@@ -37,7 +37,7 @@ const HomeScreen = ({ history }) => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      // console.log("LOCATION - ",search);
+      console.log("LOCATION - ",search);
       try {
         setLoading(true);
         const { data } = await axios.get(`${API}/blogs/${search}`);
